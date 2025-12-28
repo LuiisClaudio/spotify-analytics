@@ -34,7 +34,7 @@ def load_spotify_data(file_path: str) -> pd.DataFrame:
     Returns:
     pd.DataFrame: A DataFrame containing the Spotify data.
     """
-    df = pd.read_csv('dataset/' + file_path)
+    df = pd.read_csv('../dataset/' + file_path)
 
     return df
 
