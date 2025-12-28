@@ -43,7 +43,7 @@ st.markdown("""
 
 # Load Data
 def load_data():
-    return sdf.prepare_spotify_data('dataset_spotify.csv')
+    return sdf.prepare_spotify_data()
 
 try:
     df = load_data()

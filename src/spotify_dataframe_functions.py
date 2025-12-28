@@ -1,4 +1,10 @@
 import pandas as pd
+from pathlib import Path
+
+# Path to project root (.. from src/)
+ROOT_DIR = Path(__file__).resolve().parent.parent
+
+csv_path = ROOT_DIR / "dataset" / "dataset_spotify.csv"
 
 #A funciton that export the dataframe to a csv file
 def export_spotify_data(df: pd.DataFrame, file_path: str) -> None:
@@ -24,7 +30,7 @@ def filter_spotify_data(df: pd.DataFrame, feature: str, threshold) -> pd.DataFra
     return filtered_df
 
 
-def load_spotify_data(file_path: str) -> pd.DataFrame:
+def load_spotify_data() -> pd.DataFrame:
     """
     Load Spotify data from a CSV file into a pandas DataFrame.
 
@@ -34,7 +40,7 @@ def load_spotify_data(file_path: str) -> pd.DataFrame:
     Returns:
     pd.DataFrame: A DataFrame containing the Spotify data.
     """
-    df = pd.read_csv('../dataset/' + file_path)
+    df = pd.read_csv(csv_path)
 
     return df
 
@@ -105,7 +111,7 @@ def transform_spotify_data(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
-def prepare_spotify_data(file_path: str) -> pd.DataFrame:
+def prepare_spotify_data() -> pd.DataFrame:
     """
     Load, clean, and transform Spotify data.
 
@@ -115,7 +121,7 @@ def prepare_spotify_data(file_path: str) -> pd.DataFrame:
     Returns:
     pd.DataFrame: A prepared DataFrame ready for analysis.
     """
-    df = load_spotify_data(file_path)
+    df = load_spotify_data()
     df = clean_spotify_data(df)
     df = transform_spotify_data(df)
     return df
