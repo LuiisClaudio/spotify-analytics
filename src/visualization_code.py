@@ -9,14 +9,9 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 #1. The Global Popularity Histogram
-def plot_global_popularity_histogram(df, selected_genre=None):
-    # Check if selected_genre is not just "All Genres" or None
-    if selected_genre and selected_genre != "All Genres":
-        chart_df = df[df['track_genre'] == selected_genre]
-        title_suffix = f"({selected_genre})"
-    else:
-        chart_df = df
-        title_suffix = "(All Genres)"
+def plot_global_popularity_histogram(df):
+    title_suffix = ""
+    chart_df = df
 
     popularity_data = chart_df['track_popularity']
     
@@ -26,7 +21,7 @@ def plot_global_popularity_histogram(df, selected_genre=None):
     fig.add_trace(go.Histogram(
         x=popularity_data,
         xbins=dict(start=0, end=100, size=2),
-        marker_color='rgba(29, 185, 84, 0.6)',
+        marker_color='rgba(0, 80, 0, 0.8)',  # dark green
         name='Song Count',
         hovertemplate='Popularity: %{x}<br>Count: %{y}<extra></extra>'
     ))
@@ -46,7 +41,7 @@ def plot_global_popularity_histogram(df, selected_genre=None):
                 y=scaled_kde,
                 mode='lines',
                 name='Trend (KDE)',
-                line=dict(color='#1DB954', width=3, shape='spline'),
+                line=dict(color="#72FFA4", width=3, shape='spline'),
                 hoverinfo='skip'
             ))
         except Exception:
@@ -162,12 +157,14 @@ def plot_artist_dominance_bubble_swarm(df):
 
 #5. The Explicit Content Popularity Split
 def plot_explicit_content_popularity_split(df, selected_genre=None):
-    if selected_genre and selected_genre != "All Genres":
-        chart_df = df[df['track_genre'] == selected_genre]
-    else:
-        # Use top 10 genres to keep it readable
-        top_genres = df['track_genre'].value_counts().head(10).index
-        chart_df = df[df['track_genre'].isin(top_genres)]
+    # if selected_genre and selected_genre != "All Genres":
+    #     chart_df = df[df['track_genre'] == selected_genre]
+    # else:
+    #     # Use top 10 genres to keep it readable
+    #     top_genres = df['track_genre'].value_counts().head(10).index
+    #     chart_df = df[df['track_genre'].isin(top_genres)]
+
+    chart_df = df
 
     fig = px.box(
         chart_df,
@@ -175,9 +172,9 @@ def plot_explicit_content_popularity_split(df, selected_genre=None):
         y='track_popularity',
         color='explicit',
         title="<b>Explicit Content Popularity Split</b>",
-        color_discrete_map={True: '#FF5555', False: '#5555FF'}
+        color_discrete_map={True: '#FF5555', False: "#03B300"}
     )
-    fig.update_layout(template="plotly_dark", xaxis_title="Genre", yaxis_title="Popularity")
+    fig.update_layout(template="plotly_dark", xaxis_title="Genre", yaxis_title="track_popularity")
     return fig
 
 #6. The "Sad Banger" Quadrant (Hexbin Plot)
@@ -186,11 +183,11 @@ def plot_sad_banger_hexbin(df):
         df,
         x="valence",
         y="energy",
-        z="popularity",
+        z="track_popularity",
         histfunc="avg",
         nbinsx=20,
         nbinsy=20,
-        color_continuous_scale="Inferno",
+        color_continuous_scale="Greens",
         title="<b>The 'Sad Banger' Quadrant</b> (Avg Popularity)"
     )
     
@@ -210,7 +207,7 @@ def plot_loudness_war_regression(df):
     fig = px.scatter(
         chart_df,
         x="loudness",
-        y="popularity",
+        y="track_popularity",
         trendline="lowess",
         trendline_color_override="#1DB954",
         opacity=0.3,
@@ -218,7 +215,7 @@ def plot_loudness_war_regression(df):
     )
     
     fig.add_vline(x=-14, line_width=2, line_dash="dash", line_color="red", annotation_text="Spotify Norm (-14dB)")
-    fig.update_layout(template="plotly_dark", xaxis_title="Loudness (dB)", yaxis_title="Popularity")
+    fig.update_layout(template="plotly_dark", xaxis_title="Loudness (dB)", yaxis_title="track_popularity")
     return fig
 
 #8. The "30-Second Rule" Duration Decay Curve
@@ -243,8 +240,8 @@ def plot_duration_decay_curve(df):
     return fig
 
 #9. The Rhythm Profile (Tempo Density)
-def plot_tempo_density_ridgeline(df):
-    top_genres = df['track_genre'].value_counts().head(10).index
+def plot_tempo_density_ridgeline(df, top_n=10):
+    top_genres = df['track_genre'].value_counts().head(top_n).index
     chart_df = df[df['track_genre'].isin(top_genres)]
     
     fig = px.violin(
@@ -253,7 +250,7 @@ def plot_tempo_density_ridgeline(df):
         x="tempo",
         color="track_genre",
         orientation="h",
-        side="positive",
+        #side="positive",
         points=False, # cleaner look
         title="<b>The Rhythm Profile (Tempo)</b>"
     )
@@ -281,8 +278,8 @@ def plot_organic_vs_synthetic_density(df):
     return fig
 
 #11. Speechiness Threshold Indicator
-def plot_speechiness_threshold_boxplot(df):
-    top_genres = df['track_genre'].value_counts().head(15).index
+def plot_speechiness_threshold_boxplot(df, top_n=10):
+    top_genres = df['track_genre'].value_counts().head(top_n).index
     chart_df = df[df['track_genre'].isin(top_genres)]
     
     fig = px.box(
@@ -300,10 +297,17 @@ def plot_speechiness_threshold_boxplot(df):
     return fig
 
 #12. Sonic Radar
-def plot_sonic_radar(df, track_name):
+def plot_sonic_radar(df):
+    
+    #if df has only one row change track_name to the track name of that row
+    if len(df) == 1:
+        track_name = df['track_name'].iloc[0]
+    else:
+        track_name = 'Agg values'
+    
     features = ['danceability', 'energy', 'valence', 'acousticness', 'liveness', 'speechiness']
     
-    track_data = df[df['track_name'] == track_name].head(1)
+    track_data = df
     
     if track_data.empty:
         fig = go.Figure()
@@ -365,7 +369,7 @@ def plot_camelot_wheel_heatmap(df):
         path=['mode_name', 'key_name'],
         values='track_popularity',
         color='track_popularity',
-        color_continuous_scale='RdBu',
+        color_continuous_scale='Greens',
         title="<b>Key & Mode Popularity Heatmap</b>"
     )
     fig.update_layout(template="plotly_dark")
@@ -384,7 +388,9 @@ def plot_genre_specific_feature_boxplots(df):
         y="value",
         color="track_genre",
         facet_col="variable",
-        title="<b>Genre-Specific Feature Distribution</b>"
+        title="<b>Genre-Specific Feature Distribution</b>",
+        color_discrete_sequence=["#1DB954"]  # Spotify green
+        #color_discrete_sequence=px.colors.sequential.Greens  # Spectrum of green
     )
     fig.update_layout(template="plotly_dark", showlegend=False)
     return fig
@@ -394,12 +400,13 @@ def plot_time_signature_gauge(df):
     counts = df['time_signature'].value_counts(normalize=True).reset_index()
     counts.columns = ['Signature', 'Percentage']
     
-    fig = px.pie(
+    fig = px.treemap(
         counts,
-        names='Signature',
+        path=['Signature'],
         values='Percentage',
-        hole=0.6,
-        title="<b>Time Signature Stability</b>"
+        title="<b>Time Signature Stability</b>",
+        color='Percentage',
+        color_continuous_scale='Greens'
     )
     fig.update_layout(template="plotly_dark")
     return fig
@@ -411,11 +418,12 @@ def plot_liveness_vs_popularity(df):
     fig = px.scatter(
         chart_df,
         x="liveness",
-        y="popularity",
+        y="track_popularity",
         trendline="lowess",
-        trendline_color_override="cyan",
+        trendline_color_override="Black",
         opacity=0.4,
-        title="<b>Liveness vs. Popularity</b>"
+        title="<b>Liveness vs. Popularity</b>",
+        color_discrete_sequence=["#1DB954"]  # Spotify green
     )
     fig.update_layout(template="plotly_dark")
     return fig
@@ -436,7 +444,7 @@ def plot_explicit_ratio_by_genre(df):
         y="percentage",
         color="explicit",
         title="<b>Explicit Content Ratio by Genre</b>",
-        color_discrete_map={True: '#FF5555', False: '#5555FF'}
+        color_discrete_map={True: "#B5FFCF", False: '#1DB954'}
     )
     fig.update_layout(template="plotly_dark", xaxis_tickangle=-45, yaxis_tickformat=".0%")
     return fig
@@ -471,7 +479,7 @@ def plot_hit_potential_tsne(df):
         color='Pop_Tier',
         hover_data=['track_name', 'track_artist'],
         title="<b>'Hit Potential' Audio Landscape (t-SNE)</b>",
-        color_discrete_map={'Hit': '#FFD700', 'Mid': '#1DB954', 'Niche': 'gray'}
+        color_discrete_map={'Hit': '#1DB954', 'Mid': "#FFA024", 'Niche': 'gray'}
     )
     fig.update_layout(template="plotly_dark", xaxis_visible=False, yaxis_visible=False)
     return fig
@@ -506,7 +514,7 @@ def plot_feature_importance_waterfall(df):
 
 #20. Distance to Hit Gauge
 def plot_distance_to_hit_gauge(df, track_name):
-    hits = df[df['track_popularity'] > 80]
+    hits = df[df['track_popularity'] > 75]
     if hits.empty:
          hits = df[df['track_popularity'] > 60] 
          
@@ -545,8 +553,8 @@ def plot_distance_to_hit_gauge(df, track_name):
             'axis': {'range': [0, 100]},
             'bar': {'color': "#1DB954"},
             'steps' : [
-                {'range': [0, 50], 'color': "gray"},
-                {'range': [50, 80], 'color': "lightgray"},
+                {'range': [0, 50], 'color': "#006925"},
+                {'range': [50, 80], 'color': "#D9FFE6"},
                 {'range': [80, 100], 'color': "white"}
             ],
             'threshold' : {'line': {'color': "red", 'width': 4}, 'thickness': 0.75, 'value': 90}

@@ -11,13 +11,13 @@ import spotify_dataframe_functions as sdf
 
 st.set_page_config(page_title="The Hit-Science Intelligence Suite", layout="wide", page_icon="🎵")
 
-color_primary = "#1DB954"
+color_primary = "#007513"
 
 st.markdown("""
 <style>
-    .stApp { background-color: #FFFFFF; color: #1DB954; }
-    h1, h2, h3 { color: #1DB954 !important; font-family: 'Circular', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 700; }
-    [data-testid="stSidebar"] { background-color: #B8DCC5; border-right: 1px solid #282828; }
+    .stApp { background-color: #FFFFFF; color: #000000; }
+    h1, h2, h3 { color: #007513 !important; font-family: 'Circular', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 700; }
+    [data-testid="stSidebar"] { background-color: #FFFFFF; border-right: 1px solid #282828; }
     div[data-testid="metric-container"] { background-color: #282828; border-radius: 10px; padding: 15px; color: #fff; }
 </style>
 """, unsafe_allow_html=True)
@@ -61,8 +61,9 @@ def render_vis_4(df):
 def render_vis_5(df):
     st.subheader("5. Explicit Content Popularity Split")
     st.sidebar.markdown("---")
-    genre = st.sidebar.selectbox("Filter by Genre", ["All Genres"] + sorted(df['track_genre'].dropna().unique()))
-    fig = visualization_code.plot_explicit_content_popularity_split(df, genre)
+    # genre = st.sidebar.selectbox("Filter by Genre", ["All Genres"] + sorted(df['track_genre'].dropna().unique()))
+    # fig = visualization_code.plot_explicit_content_popularity_split(df, genre)
+    fig = visualization_code.plot_explicit_content_popularity_split(df)
     st.plotly_chart(fig, use_container_width=True)
 
 # Module B
@@ -83,7 +84,16 @@ def render_vis_8(df):
 
 def render_vis_9(df):
     st.subheader("9. The Rhythm Profile (Tempo Density)")
-    fig = visualization_code.plot_tempo_density_ridgeline(df)
+    # Allow user to select top N genres
+    top_n = st.sidebar.number_input(
+        "Number of Top Genres to Show",
+        min_value=1,
+        max_value=20,
+        value=5,
+        step=1,
+        help="Select how many top genres (by track count) to display"
+    )
+    fig = visualization_code.plot_tempo_density_ridgeline(df, top_n=top_n)
     st.plotly_chart(fig, use_container_width=True)
 
 def render_vis_10(df):
@@ -93,17 +103,27 @@ def render_vis_10(df):
 
 def render_vis_11(df):
     st.subheader("11. Speechiness Threshold Indicator")
-    fig = visualization_code.plot_speechiness_threshold_boxplot(df)
+    # Allow user to select top N genres
+    top_n = st.sidebar.number_input(
+        "Number of Top Genres to Show (Speechiness)",
+        min_value=1,
+        max_value=20,
+        value=10,
+        step=1,
+        help="Select how many top genres (by track count) to display"
+    )
+    fig = visualization_code.plot_speechiness_threshold_boxplot(df, top_n=top_n)
     st.plotly_chart(fig, use_container_width=True)
 
 def render_vis_12(df):
     st.subheader("12. Sonic Radar (Track Benchmarker)")
     st.sidebar.markdown("---")
     # Optimize loading of track list
-    track = st.sidebar.selectbox("Select Track", sorted(df['track_name'].unique())[:1000]) # Limit for performance or use text_input
-    if not track:
-        track = df['track_name'].iloc[0]
-    fig = visualization_code.plot_sonic_radar(df, track)
+    # track = st.sidebar.selectbox("Select Track", sorted(df['track_name'].unique())[:1000]) # Limit for performance or use text_input
+    # if not track:
+    #     track = df['track_name'].iloc[0]
+    # fig = visualization_code.plot_sonic_radar(df, track)
+    fig = visualization_code.plot_sonic_radar(df)
     st.plotly_chart(fig, use_container_width=True)
 
 # Module C
@@ -192,7 +212,7 @@ NAV_STRUCTURE = {
 st.sidebar.markdown("---")
 st.sidebar.title("Data Filters")
 
-# 1. Popularity Range Filter
+# 0. Popularity Range Filter
 if 'track_popularity' in df.columns:
     min_pop = int(df['track_popularity'].min())
     max_pop = int(df['track_popularity'].max())
@@ -205,7 +225,7 @@ if 'track_popularity' in df.columns:
     )
     df = df[(df['track_popularity'] >= popularity_range[0]) & (df['track_popularity'] <= popularity_range[1])]
 
-# 2. Track Genre Filter
+# 1. Track Genre Filter
 if 'track_genre' in df.columns:
     available_genres = sorted(df['track_genre'].dropna().unique())
     selected_genres = st.sidebar.multiselect(
@@ -216,6 +236,24 @@ if 'track_genre' in df.columns:
 
     if selected_genres:
         df = df[df['track_genre'].isin(selected_genres)]
+
+# 2. Select top genre filter, as default is all genres
+if 'track_genre' in df.columns:
+    top_n_genres = st.sidebar.number_input(
+        "Number of Top Genres to Show (Global Filter)",
+        min_value=1,
+        max_value=len(df['track_genre'].unique()),
+        value=len(df['track_genre'].unique()),
+        step=1,
+        help="Show only the top N genres by track count"
+    )
+    top_genres = (
+        df['track_genre']
+        .value_counts()
+        .nlargest(top_n_genres)
+        .index.tolist()
+    )
+    df = df[df['track_genre'].isin(top_genres)]
 
 #3. Artist Filter
 if 'track_artist' in df.columns:
@@ -228,6 +266,37 @@ if 'track_artist' in df.columns:
 
     if selected_artists:
         df = df[df['track_artist'].isin(selected_artists)]
+
+# 4. Select top artist filter, as default is all artists
+if 'track_artist' in df.columns:
+    top_n_artists = st.sidebar.number_input(
+        "Number of Top Artists to Show (Global Filter)",
+        min_value=1,
+        max_value=len(df['track_artist'].unique()),
+        value=len(df['track_artist'].unique()),
+        step=1,
+        help="Show only the top N artists by track count"
+    )
+    top_artists = (
+        df['track_artist']
+        .value_counts()
+        .nlargest(top_n_artists)
+        .index.tolist()
+    )
+    df = df[df['track_artist'].isin(top_artists)]
+
+#5. Select Track
+if 'track_name' in df.columns:
+    available_tracks = sorted(df['track_name'].dropna().unique())
+    selected_tracks = st.sidebar.multiselect(
+        "Track Name",
+        options=available_tracks,
+        help="Leave empty to include all tracks"
+    )
+
+    if selected_tracks:
+        df = df[df['track_name'].isin(selected_tracks)]
+
 
 # Sidebar Logic
 st.sidebar.markdown("---")
