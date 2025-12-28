@@ -59,13 +59,13 @@ def plot_global_popularity_histogram(df, selected_genre=None):
         (80, 100, "Elite Tier<br>(Hits)", "rgba(255, 215, 0, 0.1)", "top right")
     ]
     
-    for start, end, label, color, pos in zones:
-        fig.add_vrect(
-            x0=start, x1=end,
-            fillcolor=color, layer="below", line_width=0,
-            annotation_text=label, annotation_position=pos,
-            annotation_font_color="rgba(200,200,200,0.7)"
-        )
+    # for start, end, label, color, pos in zones:
+    #     fig.add_vrect(
+    #         x0=start, x1=end,
+    #         fillcolor=color, layer="below", line_width=0,
+    #         annotation_text=label, annotation_position=pos,
+    #         annotation_font_color="rgba(200,200,200,0.7)"
+    #     )
 
     fig.update_layout(
         title=dict(text=f"<b>Global Popularity Distribution</b> {title_suffix}", font=dict(size=20)),
@@ -92,7 +92,7 @@ def plot_hit_formula_correlation_matrix(df):
         corr_matrix,
         text_auto=".2f",
         aspect="auto",
-        color_continuous_scale="RdBu_r",
+        color_continuous_scale=[[0, "#FFFFFF"], [1, "#1DB954"]],
         title="<b>The 'Hit Formula' Correlation Matrix</b>"
     )
     fig.update_layout(template="plotly_dark", height=600)
@@ -125,18 +125,18 @@ def plot_genre_market_share_treemap(df):
 
 #4. Artist Dominance "Bubble Swarm"
 def plot_artist_dominance_bubble_swarm(df):
-    if 'artists' not in df.columns:
+    if 'track_artist' not in df.columns:
         return go.Figure()
         
     # Top 50 artists by track count
-    top_artists = df['artists'].value_counts().head(50).index
+    top_artists = df['track_artist'].value_counts().head(50).index
     
     # Mode genre function
     def get_mode_genre(x):
         m = x.mode()
         return m[0] if not m.empty else (x.iloc[0] if len(x) > 0 else "Unknown")
         
-    chart_df = df[df['artists'].isin(top_artists)].groupby('artists').agg(
+    chart_df = df[df['track_artist'].isin(top_artists)].groupby('track_artist').agg(
         Track_Count=('track_id', 'count'),
         Avg_Pop=('track_popularity', 'mean'),
         Primary_Genre=('track_genre', get_mode_genre)
@@ -148,7 +148,7 @@ def plot_artist_dominance_bubble_swarm(df):
         y='Track_Count',
         size='Track_Count',
         color='Primary_Genre',
-        hover_name='artists',
+        hover_name='track_artist',
         size_max=60,
         title="<b>Artist Dominance Bubble Swarm (Top 50)</b>"
     )
@@ -469,7 +469,7 @@ def plot_hit_potential_tsne(df):
         x='tsne_1',
         y='tsne_2',
         color='Pop_Tier',
-        hover_data=['track_name', 'artists'],
+        hover_data=['track_name', 'track_artist'],
         title="<b>'Hit Potential' Audio Landscape (t-SNE)</b>",
         color_discrete_map={'Hit': '#FFD700', 'Mid': '#1DB954', 'Niche': 'gray'}
     )

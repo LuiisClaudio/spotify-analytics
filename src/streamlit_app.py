@@ -11,10 +11,11 @@ import spotify_dataframe_functions as sdf
 
 st.set_page_config(page_title="The Hit-Science Intelligence Suite", layout="wide", page_icon="🎵")
 
+color_primary = "#1DB954"
 
 st.markdown("""
 <style>
-    .stApp { background-color: #FFFFFF; color: #fff; }
+    .stApp { background-color: #FFFFFF; color: #1DB954; }
     h1, h2, h3 { color: #1DB954 !important; font-family: 'Circular', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 700; }
     [data-testid="stSidebar"] { background-color: #B8DCC5; border-right: 1px solid #282828; }
     div[data-testid="metric-container"] { background-color: #282828; border-radius: 10px; padding: 15px; color: #fff; }
@@ -37,8 +38,9 @@ except Exception as e:
 def render_vis_1(df):
     st.subheader("1. Global Popularity Histogram (Long Tail Analyzer)")
     st.sidebar.markdown("---")
-    genre = st.sidebar.selectbox("Filter by Genre", ["All Genres"] + sorted(df['track_genre'].dropna().unique()))
-    fig = visualization_code.plot_global_popularity_histogram(df, genre)
+    #genre = st.sidebar.selectbox("Filter by Genre", ["All Genres"] + sorted(df['track_genre'].dropna().unique()))
+    #fig = visualization_code.plot_global_popularity_histogram(df, genre)
+    fig = visualization_code.plot_global_popularity_histogram(df)
     st.plotly_chart(fig, use_container_width=True)
 
 def render_vis_2(df):
@@ -184,7 +186,51 @@ NAV_STRUCTURE = {
     }
 }
 
+    
+
+# Global Filters
+st.sidebar.markdown("---")
+st.sidebar.title("Data Filters")
+
+# 1. Popularity Range Filter
+if 'track_popularity' in df.columns:
+    min_pop = int(df['track_popularity'].min())
+    max_pop = int(df['track_popularity'].max())
+    
+    popularity_range = st.sidebar.slider(
+        "Popularity Range",
+        min_value=min_pop,
+        max_value=max_pop,
+        value=(min_pop, max_pop)
+    )
+    df = df[(df['track_popularity'] >= popularity_range[0]) & (df['track_popularity'] <= popularity_range[1])]
+
+# 2. Track Genre Filter
+if 'track_genre' in df.columns:
+    available_genres = sorted(df['track_genre'].dropna().unique())
+    selected_genres = st.sidebar.multiselect(
+        "Track Genre",
+        options=available_genres,
+        help="Leave empty to include all genres"
+    )
+
+    if selected_genres:
+        df = df[df['track_genre'].isin(selected_genres)]
+
+#3. Artist Filter
+if 'track_artist' in df.columns:
+    available_artists = sorted(df['track_artist'].dropna().unique())
+    selected_artists = st.sidebar.multiselect(
+        "Artist Name",
+        options=available_artists,
+        help="Leave empty to include all artists"
+    )
+
+    if selected_artists:
+        df = df[df['track_artist'].isin(selected_artists)]
+
 # Sidebar Logic
+st.sidebar.markdown("---")
 st.sidebar.title("Navigation")
 selected_module = st.sidebar.selectbox("1. Select Module", list(NAV_STRUCTURE.keys()))
 selected_app = st.sidebar.radio("2. Select Application", list(NAV_STRUCTURE[selected_module].keys()))
