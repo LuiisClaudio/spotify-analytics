@@ -65,7 +65,7 @@ def render_vis_1(df):
 :dart: **Goal:** Show what "normal" vs. "exceptional" popularity looks like for all songs.  
 :bar_chart: **Chart Type:** Histogram + KDE.  
  🤔: **Logic:** Most songs are barely heard; only a few are huge hits.  
-:secret: **The Hidden Secret:** The music world is a "long tail"—tons of obscure tracks, very few superstars.  
+:secret: **The Hidden Secret:** The music world is a "long tail" tons of obscure tracks, very few superstars.  
 :trophy: **Strategic Insight:** See how hard it is to break into the "elite" tier. If the chart has two peaks, it means songs are either hits or totally miss.
 """)
 
@@ -78,7 +78,7 @@ def render_vis_2(df):
 :art: **Chart Type:** Colorful heatmap.  
  🤔: **Logic:** Shows which features (like loudness, danceability) are linked to hits.  
 :secret: **The Hidden Secret:** Vocals are key (instrumental = less popular), and loud songs still win.  
-:bulb: **Strategic Insight:** Producers can see what to focus on—if "happy" songs are out, the chart will show it!
+:bulb: **Strategic Insight:** Producers can see what to focus on if "happy" songs are out, the chart will show it!
 """)
 
 def render_vis_3(df):
@@ -90,7 +90,7 @@ def render_vis_3(df):
 :triangular_ruler: **Chart Type:** Treemap.  
  🤔: **Logic:** Big rectangles = lots of songs; color = average popularity.  
 :secret: **The Hidden Secret:** Some small genres have a higher chance of success per song.  
-:blue_heart: **Strategic Insight:** Find "blue ocean" genres—less crowded, but fans are super engaged.
+:blue_heart: **Strategic Insight:** Find "blue ocean" genres less crowded, but fans are super engaged.
 """)
 
 def render_vis_4(df):
@@ -142,7 +142,7 @@ def render_vis_7(df):
 :straight_ruler: **Chart Type:** Scatter + regression line.  
  🤔: **Logic:** Plots loudness vs. popularity, marks Spotify's normalization line.  
 :secret: **The Hidden Secret:** Hits are still mastered loud, even if Spotify turns them down.  
-:mega: **Strategic Insight:** Don't make your song too quiet—listeners still prefer "in your face" sound.
+:mega: **Strategic Insight:** Don't make your song too quiet listeners still prefer "in your face" sound.
 """)
 
 def render_vis_8(df):
@@ -154,7 +154,7 @@ def render_vis_8(df):
 :chart_with_upwards_trend: **Chart Type:** Line/area chart.  
  🤔: **Logic:** Shows average popularity by song duration.  
 :secret: **The Hidden Secret:** Shorter songs are winning (thanks, TikTok!).  
-:scissors: **Strategic Insight:** If short songs do better, cut the filler—get to the hook fast.
+:scissors: **Strategic Insight:** If short songs do better, cut the filler get to the hook fast.
 """)
 
 def render_vis_9(df):
@@ -166,7 +166,7 @@ def render_vis_9(df):
 :wave: **Chart Type:** Ridgeline/stacked density.  
  🤔: **Logic:** Plots BPM distributions for each genre.  
 :secret: **The Hidden Secret:** "Hit" tempos cluster in certain BPM ranges.  
-:runner: **Strategic Insight:** Pick a tempo that fits your genre—or break out with a surprise!
+:runner: **Strategic Insight:** Pick a tempo that fits your genre or break out with a surprise!
 """)
 
 def render_vis_10(df):
@@ -216,7 +216,7 @@ def render_vis_12(df):
 :dart: **Goal:** Compare your track's audio profile to the global average.  
 :spider_web: **Chart Type:** Radar chart.  
  🤔: **Logic:** Overlays your song's features vs. the "hit" average.  
-:secret: **The Hidden Secret:** Hits have a balanced "shape"—outliers are easy to spot.  
+:secret: **The Hidden Secret:** Hits have a balanced "shape" outliers are easy to spot.  
 :mag_right: **Strategic Insight:** See exactly where your song stands out or falls short.
 """)
 
@@ -241,7 +241,7 @@ def render_vis_14(df):
 :dart: **Goal:** Compare audio features across genres.  
 :bar_chart: **Chart Type:** Boxplots grid.  
  🤔: **Logic:** Shows how things like danceability or energy differ by genre.  
-:secret: **The Hidden Secret:** Each genre has its own "normal"—outliers can be crossover hits.  
+:secret: **The Hidden Secret:** Each genre has its own "normal" outliers can be crossover hits.  
 :rocket: **Strategic Insight:** If your song is an outlier for its genre, it might break into new playlists.
 """)
 
@@ -253,7 +253,7 @@ def render_vis_15(df):
 :dart: **Goal:** Show which time signatures dominate the charts.  
 :doughnut: **Chart Type:** Donut chart.  
  🤔: **Logic:** Compares share of 4/4, 3/4, and others.  
-:secret: **The Hidden Secret:** Almost all hits are in 4/4—odd meters are super rare.  
+:secret: **The Hidden Secret:** Almost all hits are in 4/4 odd meters are super rare.  
 :lock: **Strategic Insight:** Unusual time signatures are risky unless you're in a niche genre.
 """)
 
@@ -290,7 +290,7 @@ def render_vis_18(df):
 :dart: **Goal:** Group songs by audio similarity and hit status.  
 :crystal_ball: **Chart Type:** t-SNE scatter plot.  
  🤔: **Logic:** Projects all features into 2D, colors by "hit" level.  
-:secret: **The Hidden Secret:** "Hit" is its own genre—hits from different styles cluster together.  
+:secret: **The Hidden Secret:** "Hit" is its own genre hits from different styles cluster together.  
 :compass: **Strategic Insight:** See if your song fits the "hit cluster" or stands out as a niche.
 """)
 
