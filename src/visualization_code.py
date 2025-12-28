@@ -241,8 +241,10 @@ def plot_duration_decay_curve(df):
 
 #9. The Rhythm Profile (Tempo Density)
 def plot_tempo_density_ridgeline(df, top_n=10):
-    top_genres = df['track_genre'].value_counts().head(top_n).index
-    chart_df = df[df['track_genre'].isin(top_genres)]
+    # top_genres = df['track_genre'].value_counts().head(top_n).index
+    # chart_df = df[df['track_genre'].isin(top_genres)]
+
+    chart_df = df
     
     fig = px.violin(
         chart_df,
@@ -286,12 +288,14 @@ def plot_speechiness_threshold_boxplot(df, top_n=10):
         chart_df,
         x="track_genre",
         y="speechiness",
-        title="<b>Speechiness Threshold Indicator</b>"
+        color="track_genre",
+        title="<b>Speechiness Threshold Indicator</b>",
+        color_discrete_sequence=px.colors.sequential.Greens
     )
     
-    fig.add_hrect(y0=0.66, y1=1.0, fillcolor="red", opacity=0.1, layer="below", annotation_text="Spoken Word")
-    fig.add_hrect(y0=0.33, y1=0.66, fillcolor="yellow", opacity=0.1, layer="below", annotation_text="Rap/Rhythmic")
-    fig.add_hrect(y0=0.0, y1=0.33, fillcolor="green", opacity=0.1, layer="below", annotation_text="Music")
+    fig.add_hrect(y0=0.66, y1=1.0, fillcolor="blue", opacity=0.5, layer="below", annotation_text="Spoken Word")
+    fig.add_hrect(y0=0.33, y1=0.66, fillcolor="blue", opacity=0.4, layer="below", annotation_text="Rap/Rhythmic")
+    fig.add_hrect(y0=0.0, y1=0.33, fillcolor="blue", opacity=0.3, layer="below", annotation_text="Music")
     
     fig.update_layout(template="plotly_dark", xaxis_title="Genre", yaxis_title="Speechiness")
     return fig

@@ -9,9 +9,28 @@ sys.path.append(current_dir)
 import visualization_code
 import spotify_dataframe_functions as sdf
 
-st.set_page_config(page_title="The Hit-Science Intelligence Suite", layout="wide", page_icon="🎵")
+st.set_page_config(page_title="The Hit-Science", layout="wide", page_icon="🎵")
 
 color_primary = "#007513"
+
+st._config.set_option('theme.base', 'light')
+st._config.set_option('theme.backgroundColor', 'white')
+st._config.set_option('theme.secondaryBackgroundColor', '#f0f2f6')
+#st._config.set_option('theme.textColor', 'black')
+st._config.set_option('theme.primaryColor', '#007513')
+
+# hide_menu_style = """
+# <style>
+# #MainMenu {visibility: hidden;}
+# footer {visibility: hidden;}
+# header {visibility: hidden;}
+# </style>
+# """
+# st.markdown(hide_menu_style, unsafe_allow_html=True)
+
+# Initialize theme state
+if 'theme' not in st.session_state:
+    st.session_state.theme = 'light'
 
 st.markdown("""
 <style>
@@ -84,16 +103,7 @@ def render_vis_8(df):
 
 def render_vis_9(df):
     st.subheader("9. The Rhythm Profile (Tempo Density)")
-    # Allow user to select top N genres
-    top_n = st.sidebar.number_input(
-        "Number of Top Genres to Show",
-        min_value=1,
-        max_value=20,
-        value=5,
-        step=1,
-        help="Select how many top genres (by track count) to display"
-    )
-    fig = visualization_code.plot_tempo_density_ridgeline(df, top_n=top_n)
+    fig = visualization_code.plot_tempo_density_ridgeline(df)
     st.plotly_chart(fig, use_container_width=True)
 
 def render_vis_10(df):
@@ -176,14 +186,14 @@ def render_vis_20(df):
 
 # Navigation Structure
 NAV_STRUCTURE = {
-    "A: Macro-Market Intelligence": {
+    "Macro-Market Intelligence": {
         "1. Global Popularity Histogram": render_vis_1,
         "2. Hit Formula Matrix": render_vis_2,
         "3. Market Share Treemap": render_vis_3,
         "4. Artist Bubble Swarm": render_vis_4,
         "5. Explicit Content Split": render_vis_5
     },
-    "B: Sonic DNA (Engineering a Hit)": {
+    "Sonic DNA (Engineering a Hit)": {
         "6. Sad Banger Hexbin": render_vis_6,
         "7. Loudness War Regression": render_vis_7,
         "8. Duration Decay Curve": render_vis_8,
@@ -192,19 +202,25 @@ NAV_STRUCTURE = {
         "11. Speechiness Threshold": render_vis_11,
         "12. Sonic Radar": render_vis_12
     },
-    "C: Genre & Cultural Context": {
+    "Genre & Cultural Context": {
         "13. Camelot Wheel Heatmap": render_vis_13,
         "14. Feature Boxplots": render_vis_14,
         "15. Time Sig. Stability": render_vis_15,
         "16. Liveness vs Popularity": render_vis_16,
         "17. Explicit Ratio": render_vis_17
     },
-    "D: Secret Sauce (Advanced Analytics)": {
+    "Secret Sauce (Advanced Analytics)": {
         "18. Hit Potential t-SNE": render_vis_18,
         "19. Feature Importance": render_vis_19,
         "20. Distance to Hit Gauge": render_vis_20
     }
 }
+
+# Sidebar Logic
+#st.sidebar.markdown("---")
+st.sidebar.title("Navigation")
+selected_module = st.sidebar.selectbox("1. Select Module", list(NAV_STRUCTURE.keys()))
+selected_app = st.sidebar.radio("2. Select Visualization", list(NAV_STRUCTURE[selected_module].keys()))
 
     
 
@@ -297,12 +313,6 @@ if 'track_name' in df.columns:
     if selected_tracks:
         df = df[df['track_name'].isin(selected_tracks)]
 
-
-# Sidebar Logic
-st.sidebar.markdown("---")
-st.sidebar.title("Navigation")
-selected_module = st.sidebar.selectbox("1. Select Module", list(NAV_STRUCTURE.keys()))
-selected_app = st.sidebar.radio("2. Select Application", list(NAV_STRUCTURE[selected_module].keys()))
 
 # Render Application
 st.title(selected_module.split(":")[1].strip() if ":" in selected_module else selected_module)
