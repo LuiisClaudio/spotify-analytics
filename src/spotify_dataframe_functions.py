@@ -12,6 +12,18 @@ def export_spotify_data(df: pd.DataFrame, file_path: str) -> None:
     df.to_csv(file_path, index=False)
     return
 
+#Funciton that filter the dataframe based on features values
+def filter_spotify_data(df: pd.DataFrame, feature: str, threshold) -> pd.DataFrame:
+    if df[feature].dtype in [float, int]:
+        filtered_df = df[df[feature] >= threshold]
+    else:
+        filtered_df = df[df[feature] == threshold]
+
+    # print(f"Filtered DataFrame based on {feature} with threshold {threshold}:")
+    # print(filtered_df.head())
+    return filtered_df
+
+
 def load_spotify_data(file_path: str) -> pd.DataFrame:
     """
     Load Spotify data from a CSV file into a pandas DataFrame.
@@ -22,7 +34,7 @@ def load_spotify_data(file_path: str) -> pd.DataFrame:
     Returns:
     pd.DataFrame: A DataFrame containing the Spotify data.
     """
-    df = pd.read_csv(file_path)
+    df = pd.read_csv('dataset/' + file_path)
 
     return df
 
@@ -51,14 +63,10 @@ def clean_spotify_data(df: pd.DataFrame) -> pd.DataFrame:
     # df['release_day'] = df['track_album_release_date'].dt.day
 
     # Dropping columns with no values for the analysis
-    # no_values_columns = ['track_id', 'track_album_id', 'playlist_id', 'id', 'track_href', 'analysis_url', 'uri', 'type']
-    # df.drop(columns=no_values_columns, inplace=True)
+    no_values_columns = ['index']
+    df.drop(columns=no_values_columns, inplace=True)
 
-    # Dealing with missing values from track_album_release_date, release_year, release_month, and release_day
-    # df['track_album_release_date'] = df['track_album_release_date'].fillna(0)
-    # df['release_year'] = df['release_year'].fillna(0)
-    # df['release_month'] = df['release_month'].fillna(0)
-    # df['release_day'] = df['release_day'].fillna(0)
+    
 
     return df
 
@@ -72,11 +80,16 @@ def transform_spotify_data(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
     pd.DataFrame: A transformed DataFrame with new features.
     """
+
+    df.rename(columns={'popularity': 'track_popularity'}, inplace=True)
+    df.rename(columns={'artists': 'track_artist'}, inplace=True)
+
+
     # Convert duration from milliseconds to minutes
     df['duration_minutes'] = df['duration_ms'] / 60000
 
     # Create a popularity category
-    df['popularity_category'] = pd.cut(df['popularity'], 
+    df['popularity_category'] = pd.cut(df['track_popularity'], 
                                        bins=[-1, 20, 40, 60, 80, 100], 
                                        labels=['Very Low', 'Low', 'Medium', 'High', 'Very High'])
     
