@@ -261,21 +261,24 @@ def plot_tempo_density_ridgeline(df, top_n=10):
 
 #10. "Organic vs. Synthetic" Density Map
 def plot_organic_vs_synthetic_density(df):
-    chart_df = df.sample(5000) if len(df) > 5000 else df
-    fig = px.density_contour(
-        chart_df,
+    fig = px.density_heatmap(
+        df,
         x="acousticness",
-        y="instrumentalness",
-        title="<b>Organic vs. Synthetic Density Map</b>",
-        color_discrete_sequence=["cyan"]
+        y="energy",
+        nbinsx=20,
+        nbinsy=20,
+        color_continuous_scale="Inferno",
+        title="<b>Production Style: Acoustic vs. Energy</b>",
+        labels={"acousticness": "Acousticness (Natural/Raw)", "energy": "Energy (Processed/Intense)"}
     )
-    fig.update_traces(contours_coloring="fill", contours_showlabels=True)
+    
+    # Add quadrant annotations for context
+    fig.add_annotation(x=0.1, y=0.9, text="<b>Modern Pop/Electronic</b><br>(Processed & Loud)", showarrow=False, font=dict(color="white", size=10))
+    fig.add_annotation(x=0.9, y=0.1, text="<b>Acoustic/Folk</b><br>(Natural & Dynamic)", showarrow=False, font=dict(color="white", size=10))
+    
     fig.update_layout(
         template="plotly_dark",
-        xaxis_title="Acousticness (Organic)",
-        yaxis_title="Instrumentalness (Synthetic)",
-        xaxis_range=[0,1],
-        yaxis_range=[0,1]
+        margin=dict(t=50, l=20, r=20, b=20)
     )
     return fig
 

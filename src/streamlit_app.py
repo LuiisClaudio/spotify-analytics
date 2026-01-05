@@ -55,8 +55,8 @@ except Exception as e:
 
 # Module A
 def render_vis_1(df):
-    st.subheader("1. Global Popularity Histogram (Long Tail Analyzer) 📊")
-    st.sidebar.markdown("---")
+    st.subheader("Global Popularity Histogram (Long Tail Analyzer) 📊")
+
     #genre = st.sidebar.selectbox("Filter by Genre", ["All Genres"] + sorted(df['track_genre'].dropna().unique()))
     #fig = visualization_code.plot_global_popularity_histogram(df, genre)
     fig = visualization_code.plot_global_popularity_histogram(df)
@@ -70,7 +70,7 @@ def render_vis_1(df):
 """)
 
 def render_vis_2(df):
-    st.subheader("2. The 'Hit Formula' Correlation Matrix 🧪")
+    st.subheader("The 'Hit Formula' Correlation Matrix 🧪")
     fig = visualization_code.plot_hit_formula_correlation_matrix(df)
     st.plotly_chart(fig, use_container_width=True)
     st.markdown("""
@@ -82,7 +82,7 @@ def render_vis_2(df):
 """)
 
 def render_vis_3(df):
-    st.subheader("3. Genre Market Share vs. Impact Treemap 🗺️")
+    st.subheader("Genre Market Share vs. Impact Treemap 🗺️")
     fig = visualization_code.plot_genre_market_share_treemap(df)
     st.plotly_chart(fig, use_container_width=True)
     st.markdown("""
@@ -94,7 +94,7 @@ def render_vis_3(df):
 """)
 
 def render_vis_4(df):
-    st.subheader("4. Artist Dominance Bubble Swarm 🫧")
+    st.subheader("Artist Dominance Bubble Swarm 🫧")
     fig = visualization_code.plot_artist_dominance_bubble_swarm(df)
     st.plotly_chart(fig, use_container_width=True)
     st.markdown("""
@@ -106,8 +106,8 @@ def render_vis_4(df):
 """)
 
 def render_vis_5(df):
-    st.subheader("5. Explicit Content Popularity Split 🚦")
-    st.sidebar.markdown("---")
+    st.subheader("Explicit Content Popularity Split 🚦")
+
     # genre = st.sidebar.selectbox("Filter by Genre", ["All Genres"] + sorted(df['track_genre'].dropna().unique()))
     # fig = visualization_code.plot_explicit_content_popularity_split(df, genre)
     fig = visualization_code.plot_explicit_content_popularity_split(df)
@@ -122,7 +122,7 @@ def render_vis_5(df):
 
 # Module B
 def render_vis_6(df):
-    st.subheader("6. The 'Sad Banger' Quadrant (Hexbin Plot) 😢🔥")
+    st.subheader("The 'Sad Banger' Quadrant (Hexbin Plot) 😢🔥")
     fig = visualization_code.plot_sad_banger_hexbin(df)
     st.plotly_chart(fig, use_container_width=True)
     st.markdown("""
@@ -134,7 +134,7 @@ def render_vis_6(df):
 """)
 
 def render_vis_7(df):
-    st.subheader("7. The 'Loudness War' Regression 📈🔊")
+    st.subheader("The 'Loudness War' Regression 📈🔊")
     fig = visualization_code.plot_loudness_war_regression(df)
     st.plotly_chart(fig, use_container_width=True)
     st.markdown("""
@@ -146,7 +146,7 @@ def render_vis_7(df):
 """)
 
 def render_vis_8(df):
-    st.subheader("8. The '30-Second Rule' Duration Decay Curve ⏱️")
+    st.subheader("The '30-Second Rule' Duration Decay Curve ⏱️")
     fig = visualization_code.plot_duration_decay_curve(df)
     st.plotly_chart(fig, use_container_width=True)
     st.markdown("""
@@ -158,7 +158,7 @@ def render_vis_8(df):
 """)
 
 def render_vis_9(df):
-    st.subheader("9. The Rhythm Profile (Tempo Density) 🥁")
+    st.subheader("The Rhythm Profile (Tempo Density) 🥁")
     fig = visualization_code.plot_tempo_density_ridgeline(df)
     st.plotly_chart(fig, use_container_width=True)
     st.markdown("""
@@ -170,19 +170,19 @@ def render_vis_9(df):
 """)
 
 def render_vis_10(df):
-    st.subheader("10. Organic vs. Synthetic Density Map 🌱🤖")
+    st.subheader("Organic vs. Synthetic Density Map 🌱🤖")
     fig = visualization_code.plot_organic_vs_synthetic_density(df)
     st.plotly_chart(fig, use_container_width=True)
     st.markdown("""
-:dart: **Goal:** Map how "real" vs. "electronic" songs perform.  
-:compass: **Chart Type:** 2D density plot.  
- 🤔: **Logic:** Plots acousticness vs. instrumentalness.  
-:secret: **The Hidden Secret:** Most hits are produced pop with vocals, but "bedroom pop" is rising.  
-:balance_scale: **Strategic Insight:** Decide if your song should sound more "live" or "produced" for max impact.
+:dart: **Goal:** Analyze production styles by comparing "Natural" vs. "Processed" sound.  
+:fire: **Chart Type:** Density Heatmap.  
+ 🤔: **Logic:** High **Energy** usually means heavy production (compression, synths), while high **Acousticness** means raw recordings.  
+:secret: **The Hidden Secret:** The industry clusters heavily in the "High Energy / Low Acoustic" corner (Hits), but there's a niche for "Raw/Chill" music.  
+:control_knobs: **Strategic Insight:** If you want a mainstream hit, you likely need high energy and low acousticness (polished production).
 """)
 
 def render_vis_11(df):
-    st.subheader("11. Speechiness Threshold Indicator 🗣️")
+    st.subheader("Speechiness Threshold Indicator 🗣️")
     # Allow user to select top N genres
     top_n = st.sidebar.number_input(
         "Number of Top Genres to Show (Speechiness)",
@@ -203,8 +203,8 @@ def render_vis_11(df):
 """)
 
 def render_vis_12(df):
-    st.subheader("12. Sonic Radar (Track Benchmarker) 🕸️")
-    st.sidebar.markdown("---")
+    st.subheader("Sonic Radar (Track Benchmarker) 🕸️")
+
     # Optimize loading of track list
     # track = st.sidebar.selectbox("Select Track", sorted(df['track_name'].unique())[:1000]) # Limit for performance or use text_input
     # if not track:
@@ -222,7 +222,7 @@ def render_vis_12(df):
 
 # Module C
 def render_vis_13(df):
-    st.subheader("13. The 'Camelot Wheel' Key & Mode Heatmap 🎡")
+    st.subheader("The 'Camelot Wheel' Key & Mode Heatmap 🎡")
     fig = visualization_code.plot_camelot_wheel_heatmap(df)
     st.plotly_chart(fig, use_container_width=True)
     st.markdown("""
@@ -234,7 +234,7 @@ def render_vis_13(df):
 """)
 
 def render_vis_14(df):
-    st.subheader("14. Genre-Specific Feature Boxplots 📦")
+    st.subheader("Genre-Specific Feature Boxplots 📦")
     fig = visualization_code.plot_genre_specific_feature_boxplots(df)
     st.plotly_chart(fig, use_container_width=True)
     st.markdown("""
@@ -246,7 +246,7 @@ def render_vis_14(df):
 """)
 
 def render_vis_15(df):
-    st.subheader("15. Time Signature Stability Gauge ⏲️")
+    st.subheader("Time Signature Stability Gauge ⏲️")
     fig = visualization_code.plot_time_signature_gauge(df)
     st.plotly_chart(fig, use_container_width=True)
     st.markdown("""
@@ -258,7 +258,7 @@ def render_vis_15(df):
 """)
 
 def render_vis_16(df):
-    st.subheader("16. Liveness vs. Popularity Inverse Curve 🎤")
+    st.subheader("Liveness vs. Popularity Inverse Curve 🎤")
     fig = visualization_code.plot_liveness_vs_popularity(df)
     st.plotly_chart(fig, use_container_width=True)
     st.markdown("""
@@ -270,7 +270,7 @@ def render_vis_16(df):
 """)
 
 def render_vis_17(df):
-    st.subheader("17. Explicit Ratio by Genre (Stacked Bar) 🚫")
+    st.subheader("Explicit Ratio by Genre (Stacked Bar) 🚫")
     fig = visualization_code.plot_explicit_ratio_by_genre(df)
     st.plotly_chart(fig, use_container_width=True)
     st.markdown("""
@@ -282,7 +282,7 @@ def render_vis_17(df):
 """)
 
 def render_vis_18(df):
-    st.subheader("18. The 'Hit Potential' Cluster Map (t-SNE) 🗺️✨")
+    st.subheader("The 'Hit Potential' Cluster Map (t-SNE) 🗺️✨")
     st.info("Generating map... simple sampling used for performance.")
     fig = visualization_code.plot_hit_potential_tsne(df)
     st.plotly_chart(fig, use_container_width=True)
@@ -295,7 +295,7 @@ def render_vis_18(df):
 """)
 
 def render_vis_19(df):
-    st.subheader("19. Feature Importance Waterfall Chart 💧")
+    st.subheader("Feature Importance Waterfall Chart 💧")
     fig = visualization_code.plot_feature_importance_waterfall(df)
     st.plotly_chart(fig, use_container_width=True)
     st.markdown("""
@@ -307,8 +307,8 @@ def render_vis_19(df):
 """)
 
 def render_vis_20(df):
-    st.subheader("20. The 'Distance to Hit' Gauge 🎯")
-    st.sidebar.markdown("---")
+    st.subheader("The 'Distance to Hit' Gauge 🎯")
+
     track = st.sidebar.selectbox("Select Track for Hit Distance", sorted(df['track_name'].unique())[:1000])
     if not track:
         track = df['track_name'].iloc[0]
@@ -323,41 +323,102 @@ def render_vis_20(df):
 """)
 
 # Navigation Structure
+# --------------------------------------------------------------------------
+# STORYTELLING WRAPPERS (Grouping Visualizations for Narrative Flow)
+# --------------------------------------------------------------------------
+
+def render_story_market_overview(df):
+    st.markdown("### 🌍 Global Market Landscape")
+    st.info("Start here to understand the big picture: How strict is the 'Hit' definition, and which genres dominate?")
+    render_vis_1(df)
+    st.markdown("---")
+    render_vis_3(df)
+
+def render_story_artist_strategy(df):
+    st.markdown("### 🎤 Artist & Content Strategy")
+    st.info("How do artists build catalogs, and how does explicit content affect their reach?")
+    render_vis_4(df)
+    st.markdown("---")
+    col1, col2 = st.columns(2)
+    with col1:
+        render_vis_5(df)
+    with col2:
+        render_vis_17(df)
+
+def render_story_hit_formula(df):
+    st.markdown("### 🧪 The 'Hit' Formula")
+    st.info("What audio features actually correlate with success? (Data & ML Insights)")
+    render_vis_2(df)
+    st.markdown("---")
+    render_vis_19(df)
+    st.markdown("---")
+    render_vis_7(df)
+
+def render_story_song_vibes(df):
+    st.markdown("### 🎵 Song Architecture & Vibe")
+    st.info("Analyzing Emotion, Energy, and Track Duration.")
+    render_vis_6(df)
+    st.markdown("---")
+    col1, col2 = st.columns(2)
+    with col1:
+        render_vis_8(df)
+    with col2:
+        render_vis_16(df)
+
+def render_story_rhythm_texture(df):
+    st.markdown("### 🥁 Rhythm & Texture")
+    st.info("Tempo, Speechiness, and the Organic/Synthetic balance.")
+    render_vis_9(df)
+    st.markdown("---")
+    col1, col2 = st.columns(2)
+    with col1:
+        render_vis_10(df)
+    with col2:
+        render_vis_11(df)
+
+def render_story_musical_theory(df):
+    st.markdown("### 🎼 Musical Theory Deep Dive")
+    st.info("Keys, Modes, Time Signatures, and Genre norms.")
+    col1, col2 = st.columns(2)
+    with col1:
+        render_vis_13(df)
+    with col2:
+        render_vis_15(df)
+    st.markdown("---")
+    render_vis_14(df)
+
+def render_story_track_analyzer(df):
+    st.markdown("### 🎯 Track Analyzer & Prediction")
+    st.info("Select a track to benchmark it against Hits and see where it lands on the AI map.")
+    col1, col2 = st.columns(2)
+    with col1:
+        render_vis_12(df)
+    with col2:
+        render_vis_20(df)
+    st.markdown("---")
+    render_vis_18(df)
+
+# Navigation Structure
 NAV_STRUCTURE = {
-    "Macro-Market Intelligence 📊": {
-        "1. Global Popularity Histogram 📊": render_vis_1,
-        "2. Hit Formula Matrix 🧪": render_vis_2,
-        "3. Market Share Treemap 🗺️": render_vis_3,
-        "4. Artist Bubble Swarm 🫧": render_vis_4,
-        "5. Explicit Content Split 🚦": render_vis_5
+    "1. Market Intelligence 📊": {
+        "Global Overview": render_story_market_overview,
+        "Artist & Strategy": render_story_artist_strategy
     },
-    "Sonic DNA (Engineering a Hit) 🧬": {
-        "6. Sad Banger Hexbin 😢🔥": render_vis_6,
-        "7. Loudness War Regression 📈🔊": render_vis_7,
-        "8. Duration Decay Curve ⏱️": render_vis_8,
-        "9. Rhythm Profile 🥁": render_vis_9,
-        "10. Organic vs Synthetic 🌱🤖": render_vis_10,
-        "11. Speechiness Threshold 🗣️": render_vis_11,
-        "12. Sonic Radar 🕸️": render_vis_12
+    "2. Audio Engineering 🎛️": {
+        "The 'Hit' Formula": render_story_hit_formula,
+        "Vibe & Architecture": render_story_song_vibes,
+        "Rhythm & Texture": render_story_rhythm_texture
     },
-    "Genre & Cultural Context 🌍": {
-        "13. Camelot Wheel Heatmap 🎡": render_vis_13,
-        "14. Feature Boxplots 📦": render_vis_14,
-        "15. Time Sig. Stability ⏲️": render_vis_15,
-        "16. Liveness vs Popularity 🎤": render_vis_16,
-        "17. Explicit Ratio 🚫": render_vis_17
-    },
-    "Secret Sauce (Advanced) 🧠": {
-        "18. Hit Potential t-SNE 🗺️✨": render_vis_18,
-        "19. Feature Importance 💧": render_vis_19,
-        "20. Distance to Hit Gauge 🎯": render_vis_20
+    "3. Advanced Insights 🧠": {
+        "Musical Theory": render_story_musical_theory,
+        "Track Tools (AI)": render_story_track_analyzer
     }
 }
 
 # Sidebar Logic
 #st.sidebar.markdown("---")
 st.sidebar.title("Navigation")
-selected_module = st.sidebar.selectbox("1. Select Module", list(NAV_STRUCTURE.keys()))
+selected_module = st.sidebar.radio("1. Select Module", list(NAV_STRUCTURE.keys()))
 selected_app = st.sidebar.radio("2. Select Visualization", list(NAV_STRUCTURE[selected_module].keys()))
 
 

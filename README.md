@@ -2,6 +2,8 @@
 
 ![Banner](assets/banner.png)
 
+## Dashboard Link: https://spotifyhitscience.streamlit.app/
+
 
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
@@ -32,32 +34,25 @@ Unlike static analysis projects, this dashboard features a live data bridge:
 - **Functionality:** Handles secure OAuth2 authentication to fetch granular metadata (such as precise release dates) that is often missing from standard CSV datasets, ensuring the "Time-Series" analysis is accurate to the day.
 
 ## 💡 Key Features & Modules
+The application is structured into **Story Chapters** to guide the user through a data narative:
 
-The application is structured into four strategic modules:
+### 1. Market Intelligence 📊
+*The "Big Picture" view of the music industry.*
+- **Global Overview:** Histograms & KDE plots revealing the "Long Tail" nature of music consumption and Genre Market Share.
+- **Artist Strategy:** Analyzing how artists build catalogs and the impact of Explicit content on success.
 
-### 1. Macro-Market Intelligence 🌍
-*Global trend analysis and market sizing.*
-- **Distribution Analysis:** Histograms & KDE plots revealing the "Long Tail" nature of music consumption.
-- **Correlation Matrix:** A heatmap identifying strong relationships between variables (e.g., Energy vs. Loudness).
-- **Market Share:** Interactive Treemaps visualizing genre dominance vs. average popularity.
+### 2. Audio Engineering 🧬
+*Deep-dive into the technical "Sonic DNA" of a track.*
+- **The "Hit" Formula:** Correlation matrices and Loudness regressions verifying if "louder is better".
+- **Production Style:** A **Density Heatmap** comparing **Acousticness vs. Energy** to map the landscape of "Natural" vs. "Processed" sound.
+- **Rhythm & Texture:** Analyzing Tempo distributions and Speechiness ranges.
 
-### 2. Sonic DNA (Engineering a Hit) 🧬
-*Deep-dive into the technical audio engineering aspects.*
-- **The "Sad Banger" Quadrant:** Hexbin plots analyzing the relationship between musical positiveness (Valence) and high energy.
-- **Duration Decay:** Analysis of song length impact (testing the "30-second rule").
-- **Sonic Radar:** A spider chart benchmarking any specific track against the "Average Hit" profile.
-
-### 3. Genre & Cultural Context 🎸
-*Understanding the norms and outliers within specific niches.*
-- **Camelot Wheel Heatmap:** Aggregating popularity by Musical Key and Mode (Major vs. Minor).
-- **Time Signature Stability:** Checking the prevalence of 4/4 vs. odd meters in popular music.
-- **Explicit Content Analysis:** Violin plots showing how explicit lyrics affect performance across different genres.
-
-### 4. The "Secret Sauce" (Advanced ML) 🧠
+### 3. Advanced Insights 🧠
 *Predictive modeling and high-dimensional analysis.*
-- **Hit Potential t-SNE:** A 2D projection of high-dimensional audio data, clustering songs by acoustic similarity to visualize the "Hit Region".
-- **Feature Importance:** A Waterfall chart derived from a **Random Forest Regressor** model, ranking which audio features most heavily influence popularity.
-- **Distance-to-Hit Gauge:** A proprietary metric using **Euclidean Distance** in n-dimensional feature space to score a track's similarity to the top 10% of songs.
+- **Musical Theory:** Aggregating popularity by Camelot Key, Mode, and Time Signatures.
+- **Hit Potential t-SNE:** A 2D projection clustering songs by acoustic similarity to visualize the "Hit Region".
+- **Feature Importance:** A Waterfall chart derived from a **Random Forest Regressor**, ranking which likelihood features most heavily influence popularity.
+- **Distance-to-Hit Gauge:** A proprietary metric using **Euclidean Distance** to score a track's similarity to current Top Hits.
 
 
 ## �🛠️ Technical Architecture
